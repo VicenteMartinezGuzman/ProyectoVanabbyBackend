@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict KmRWoAMoqU50TXTz2UhdMlUVA8oARUo2moFUoeWTlEYcBdqtpcUzZ5AxA37XrHn
+\restrict Iw0IyfPIzbj43qrn0SxO9TszFccPK5y71Yx01dWU0cFatpUlXeICcFV406smncS
 
 -- Dumped from database version 17.11
 -- Dumped by pg_dump version 18.4
 
--- Started on 2026-11-12 19:45:33
+-- Started on 2026-11-12 21:47:25
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1338,11 +1338,11 @@ ALTER TABLE ONLY "vanabbyDB".venta
     ADD CONSTRAINT venta_pedido_id_fkey FOREIGN KEY (pedido_id) REFERENCES "vanabbyDB".pedido(pedido_id);
 
 
--- Completed on 2026-11-12 19:45:34
+-- Completed on 2026-11-12 21:47:25
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict KmRWoAMoqU50TXTz2UhdMlUVA8oARUo2moFUoeWTlEYcBdqtpcUzZ5AxA37XrHn
+\unrestrict Iw0IyfPIzbj43qrn0SxO9TszFccPK5y71Yx01dWU0cFatpUlXeICcFV406smncS
 
