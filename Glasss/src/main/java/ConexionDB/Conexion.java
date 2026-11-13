@@ -15,9 +15,9 @@ import java.sql.SQLException;
  */
 public class Conexion {
     // Configura los datos de tu base de datos local o remota
-    private static final String URL = "jdbc:postgresql://localhost:5412/tu_base_datos";
+    private static final String URL = "jdbc:postgresql://localhost:5433/vanabbyDB/";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "tu_password";
+    private static final String PASSWORD = "Holamundo01#";
 
     public static Connection getConexion() throws SQLException {
         try {
