@@ -38,14 +38,6 @@ public class SaludoServlet extends HttpServlet{
     res.getWriter().print("<h1>Hola,"+ nombre + "</h1>");
     }
     
-    
-    
-    //destroy() - se ejecuta UNA vez al final
-    @Override
-    public void destroy(){
-    //p. ej. cerrar pool de conexiones
-    }
-
     // 3. PUT - Reemplazar / Actualizar completamente
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) 
@@ -58,6 +50,12 @@ public class SaludoServlet extends HttpServlet{
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         enviarRespuesta(response, "DELETE: Recurso eliminado.");
+    }
+    
+    //destroy() - se ejecuta UNA vez al final
+    @Override
+    public void destroy(){
+    //p. ej. cerrar pool de conexiones
     }
 
     // 5. PATCH - Soporte manual interceptando el ciclo de vida del Servlet
