@@ -5,85 +5,39 @@
 package Modelos;
 
 import java.sql.Timestamp;
-
+import java.util.List;
 /**
  *
  * @author vicen
  */
+
+
+
 public class Cliente {
-    private int cliente_id;
+    private int clienteId;
     private String nombre;
-    private String ap_paterno;
-    private String ap_materno;
+    private String apPaterno;
+    private String apMaterno;
     private String telefono;
     private String correo;
-    private Timestamp creado_en;
+    private Timestamp creadoEn;
+    private List<DireccionCliente> direcciones; // Relación 1:N
 
-    public Cliente(int cliente_id, String nombre, String ap_paterno, String ap_materno, String telefono, String correo, Timestamp creado_en) {
-        this.cliente_id = cliente_id;
-        this.nombre = nombre;
-        this.ap_paterno = ap_paterno;
-        this.ap_materno = ap_materno;
-        this.telefono = telefono;
-        this.correo = correo;
-        this.creado_en = creado_en;
-    }
-
-    public int getCliente_id() {
-        return cliente_id;
-    }
-
-    public void setCliente_id(int cliente_id) {
-        this.cliente_id = cliente_id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getAp_paterno() {
-        return ap_paterno;
-    }
-
-    public void setAp_paterno(String ap_paterno) {
-        this.ap_paterno = ap_paterno;
-    }
-
-    public String getAp_materno() {
-        return ap_materno;
-    }
-
-    public void setAp_materno(String ap_materno) {
-        this.ap_materno = ap_materno;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public Timestamp getCreado_en() {
-        return creado_en;
-    }
-
-    public void setCreado_en(Timestamp creado_en) {
-        this.creado_en = creado_en;
-    }
-    
-            
+    public Cliente() {}
+    public int getClienteId() { return clienteId; }
+    public void setClienteId(int clienteId) { this.clienteId = clienteId; }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public String getApPaterno() { return apPaterno; }
+    public void setApPaterno(String apPaterno) { this.apPaterno = apPaterno; }
+    public String getApMaterno() { return apMaterno; }
+    public void setApMaterno(String apMaterno) { this.apMaterno = apMaterno; }
+    public String getTelefono() { return telefono; }
+    public void setTelefono(String telefono) { this.telefono = telefono; }
+    public String getCorreo() { return correo; }
+    public void setCorreo(String correo) { this.correo = correo; }
+    public Timestamp getCreadoEn() { return creadoEn; }
+    public void setCreadoEn(Timestamp creadoEn) { this.creadoEn = creadoEn; }
+    public List<DireccionCliente> getDirecciones() { return direcciones; }
+    public void setDirecciones(List<DireccionCliente> direcciones) { this.direcciones = direcciones; }
 }

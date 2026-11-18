@@ -56,7 +56,7 @@ public class Conexion {
                 PASSWORD
             );
             // setSchema() sí respeta las mayúsculas de vanabbyDB
-            cn.setSchema("vanabbyDB"); 
+            cn.setSchema("vanabby"); 
             return cn;
         } catch (ClassNotFoundException e) {
             throw new SQLException("No se encontró el driver de PostgreSQL en el proyecto", e);

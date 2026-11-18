@@ -10,55 +10,49 @@ import java.sql.Timestamp;
  *
  * @author vicen
  */
+import java.sql.Timestamp;
+import java.util.List;
+
 public class Empleado {
-    private int empleado_id;
-    private String nombre_usuario;
-    private String clave_hash;
+
+    private int empleadoId;
+    private String nombreUsuario;
+    private String claveHash;
     private String nombre;
-    private String ap_paterno;
-    private String ap_materno;
-    private int rol_id;//puede tener muchos roles?
-    private int bloqueado;//porque es un numero, a que se refiere bloqueado?
-    private int intentos_fallidos;
-    private Timestamp ultimo_intento;
-    private Timestamp creado_en;
+    private String apPaterno;
+    private String apMaterno;
+    private Integer rolId; // FK -> rol
+    private Short bloqueado;
+    private Integer intentosFallidos;
+    private Timestamp ultimoIntento;
+    private Timestamp creadoEn;
+    private List<DireccionEmpleado> direcciones; // Relación 1:N
 
-    public Empleado(int empleado_id, String nombre_usuario, String clave_hash, String nombre, String ap_paterno, String ap_materno, int rol_id, int bloqueado, int intentos_fallidos, Timestamp ultimo_intento, Timestamp creado_en) {
-        this.empleado_id = empleado_id;
-        this.nombre_usuario = nombre_usuario;
-        this.clave_hash = clave_hash;
-        this.nombre = nombre;
-        this.ap_paterno = ap_paterno;
-        this.ap_materno = ap_materno;
-        this.rol_id = rol_id;
-        this.bloqueado = bloqueado;
-        this.intentos_fallidos = intentos_fallidos;
-        this.ultimo_intento = ultimo_intento;
-        this.creado_en = creado_en;
+    public Empleado() {
     }
 
-    public int getEmpleado_id() {
-        return empleado_id;
+    public int getEmpleadoId() {
+        return empleadoId;
     }
 
-    public void setEmpleado_id(int empleado_id) {
-        this.empleado_id = empleado_id;
+    public void setEmpleadoId(int empleadoId) {
+        this.empleadoId = empleadoId;
     }
 
-    public String getNombre_usuario() {
-        return nombre_usuario;
+    public String getNombreUsuario() {
+        return nombreUsuario;
     }
 
-    public void setNombre_usuario(String nombre_usuario) {
-        this.nombre_usuario = nombre_usuario;
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
-    public String getClave_hash() {
-        return clave_hash;
+    public String getClaveHash() {
+        return claveHash;
     }
 
-    public void setClave_hash(String clave_hash) {
-        this.clave_hash = clave_hash;
+    public void setClaveHash(String claveHash) {
+        this.claveHash = claveHash;
     }
 
     public String getNombre() {
@@ -69,60 +63,67 @@ public class Empleado {
         this.nombre = nombre;
     }
 
-    public String getAp_paterno() {
-        return ap_paterno;
+    public String getApPaterno() {
+        return apPaterno;
     }
 
-    public void setAp_paterno(String ap_paterno) {
-        this.ap_paterno = ap_paterno;
+    public void setApPaterno(String apPaterno) {
+        this.apPaterno = apPaterno;
     }
 
-    public String getAp_materno() {
-        return ap_materno;
+    public String getApMaterno() {
+        return apMaterno;
     }
 
-    public void setAp_materno(String ap_materno) {
-        this.ap_materno = ap_materno;
+    public void setApMaterno(String apMaterno) {
+        this.apMaterno = apMaterno;
     }
 
-    public int getRol_id() {
-        return rol_id;
+    public Integer getRolId() {
+        return rolId;
     }
 
-    public void setRol_id(int rol_id) {
-        this.rol_id = rol_id;
+    public void setRolId(Integer rolId) {
+        this.rolId = rolId;
     }
 
-    public int getBloqueado() {
+    public Short getBloqueado() {
         return bloqueado;
     }
 
-    public void setBloqueado(int bloqueado) {
+    public void setBloqueado(Short bloqueado) {
         this.bloqueado = bloqueado;
     }
 
-    public int getIntentos_fallidos() {
-        return intentos_fallidos;
+    public Integer getIntentosFallidos() {
+        return intentosFallidos;
     }
 
-    public void setIntentos_fallidos(int intentos_fallidos) {
-        this.intentos_fallidos = intentos_fallidos;
+    public void setIntentosFallidos(Integer intentosFallidos) {
+        this.intentosFallidos = intentosFallidos;
     }
 
-    public Timestamp getUltimo_intento() {
-        return ultimo_intento;
+    public Timestamp getUltimoIntento() {
+        return ultimoIntento;
     }
 
-    public void setUltimo_intento(Timestamp ultimo_intento) {
-        this.ultimo_intento = ultimo_intento;
+    public void setUltimoIntento(Timestamp ultimoIntento) {
+        this.ultimoIntento = ultimoIntento;
     }
 
-    public Timestamp getCreado_en() {
-        return creado_en;
+    public Timestamp getCreadoEn() {
+        return creadoEn;
     }
 
-    public void setCreado_en(Timestamp creado_en) {
-        this.creado_en = creado_en;
+    public void setCreadoEn(Timestamp creadoEn) {
+        this.creadoEn = creadoEn;
     }
-    
+
+    public List<DireccionEmpleado> getDirecciones() {
+        return direcciones;
+    }
+
+    public void setDirecciones(List<DireccionEmpleado> direcciones) {
+        this.direcciones = direcciones;
+    }
 }
