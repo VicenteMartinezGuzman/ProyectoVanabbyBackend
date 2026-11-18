@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- *
+ *  
  * @author vicen
  */
 public class Conexion {
@@ -21,7 +21,7 @@ public class Conexion {
     private static final String PASSWORD = "Holamundo01#";
     
     //ESTE CODIGO FUE UNA PRUEBA PARA VER SI PODIA ACCEDER A LAS TABLAS
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         // Reemplaza "usuarios" por el nombre real de tu tabla dentro del esquema
         String sql = "SELECT * FROM rol;";
 
@@ -45,7 +45,7 @@ public class Conexion {
         } catch (SQLException e) {
             System.err.println("Error al ejecutar la consulta: " + e.getMessage());
         }
-    }*/
+    }
     
     public static Connection getConexion() throws SQLException {
         try {
