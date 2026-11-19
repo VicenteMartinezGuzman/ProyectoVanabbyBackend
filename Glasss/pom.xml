@@ -25,6 +25,13 @@
             <artifactId>postgresql</artifactId>
             <version>42.7.4</version> <!-- Versión estable y segura -->
         </dependency>
+        
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+
     </dependencies>
     
     <build>
