@@ -23,7 +23,7 @@ public class ClienteDAO {
         List<Cliente> lista = new ArrayList<>();
         String sql = "SELECT * FROM cliente ORDER BY cliente_id ASC";
 
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -44,7 +44,7 @@ public class ClienteDAO {
 
     public boolean insertar(Cliente c) {
         String sql = "INSERT INTO cliente (nombre, ap_paterno, ap_materno, telefono, correo, creado_en) VALUES (?, ?, ?, ?, ?, NOW())";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, c.getNombre());
             ps.setString(2, c.getApPaterno());
@@ -57,7 +57,7 @@ public class ClienteDAO {
 
     public boolean actualizar(Cliente c) {
         String sql = "UPDATE cliente SET nombre=?, ap_paterno=?, ap_materno=?, telefono=?, correo=? WHERE cliente_id=?";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, c.getNombre());
             ps.setString(2, c.getApPaterno());
@@ -71,7 +71,7 @@ public class ClienteDAO {
 
     public boolean eliminar(int id) {
         String sql = "DELETE FROM cliente WHERE cliente_id=?";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;

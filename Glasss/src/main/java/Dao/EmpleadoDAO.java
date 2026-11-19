@@ -24,7 +24,7 @@ public class EmpleadoDAO {
         List<Empleado> lista = new ArrayList<>();
         String sql = "SELECT empleado_id, nombre_usuario, nombre, ap_paterno, ap_materno, rol_id, bloqueado, intentos_fallidos, ultimo_intento, creado_en FROM empleado ORDER BY empleado_id";
 
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -48,7 +48,7 @@ public class EmpleadoDAO {
 
     public boolean insertar(Empleado emp) {
         String sql = "INSERT INTO empleado (nombre_usuario, clave_hash, nombre, ap_paterno, ap_materno, rol_id, bloqueado, intentos_fallidos, creado_en) VALUES (?, ?, ?, ?, ?, ?, 0, 0, NOW())";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, emp.getNombreUsuario());
             ps.setString(2, emp.getClaveHash());
@@ -62,7 +62,7 @@ public class EmpleadoDAO {
 
     public Empleado buscarPorUsuario(String usuario) {
         String sql = "SELECT * FROM empleado WHERE nombre_usuario = ?";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, usuario);
             try (ResultSet rs = ps.executeQuery()) {

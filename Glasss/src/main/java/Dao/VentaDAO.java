@@ -73,7 +73,7 @@ public class VentaDAO {
     public List<Venta> listarVentas() {
         List<Venta> lista = new ArrayList<>();
         String sql = "SELECT * FROM venta ORDER BY fecha_venta DESC";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {

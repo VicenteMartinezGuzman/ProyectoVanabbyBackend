@@ -25,7 +25,7 @@ public class DireccionYProveedorDAO {
 
     public List<Proveedor> listarProveedores() {
         List<Proveedor> lista = new ArrayList<>();
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement("SELECT * FROM proveedor ORDER BY proveedor_id");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -46,7 +46,7 @@ public class DireccionYProveedorDAO {
 
     public boolean insertarProveedor(Proveedor p) {
         String sql = "INSERT INTO proveedor (nombre, contacto_nombre, contacto_ap_paterno, contacto_ap_materno, telefono, correo, notas) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, p.getNombre());
             ps.setString(2, p.getContactoNombre());
@@ -61,7 +61,7 @@ public class DireccionYProveedorDAO {
 
     public List<DireccionCliente> listarDireccionesCliente(int clienteId) {
         List<DireccionCliente> lista = new ArrayList<>();
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement("SELECT * FROM direccion_cliente WHERE cliente_id = ?")) {
             ps.setInt(1, clienteId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -86,7 +86,7 @@ public class DireccionYProveedorDAO {
 
     public boolean insertarDireccionCliente(DireccionCliente d) {
         String sql = "INSERT INTO direccion_cliente (cliente_id, alias, calle, numero, colonia, ciudad, estado_geo, cp, es_principal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, d.getClienteId());
             ps.setString(2, d.getAlias());
@@ -103,7 +103,7 @@ public class DireccionYProveedorDAO {
 
     public boolean insertarDireccionEmpleado(DireccionEmpleado d) {
         String sql = "INSERT INTO direccion_empleado (empleado_id, alias, calle, numero, colonia, ciudad, estado_geo, cp, es_principal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, d.getEmpleadoId());
             ps.setString(2, d.getAlias());
@@ -120,7 +120,7 @@ public class DireccionYProveedorDAO {
 
     public boolean insertarDireccionProveedor(DireccionProveedor d) {
         String sql = "INSERT INTO direccion_proveedor (proveedor_id, alias, calle, numero, colonia, ciudad, estado_geo, cp, es_principal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, d.getProveedorId());
             ps.setString(2, d.getAlias());

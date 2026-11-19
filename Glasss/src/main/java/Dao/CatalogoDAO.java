@@ -29,7 +29,7 @@ public class CatalogoDAO {
 
     public List<Categoria> listarCategorias() {
         List<Categoria> lista = new ArrayList<>();
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement("SELECT * FROM categoria ORDER BY categoria_id");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -44,7 +44,7 @@ public class CatalogoDAO {
 
     public List<EstadoAgenda> listarEstadosAgenda() {
         List<EstadoAgenda> lista = new ArrayList<>();
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement("SELECT * FROM estado_agenda ORDER BY estado_agenda_id");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -59,7 +59,7 @@ public class CatalogoDAO {
 
     public List<EstadoAnticipo> listarEstadosAnticipo() {
         List<EstadoAnticipo> lista = new ArrayList<>();
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement("SELECT * FROM estado_anticipo ORDER BY estado_anticipo_id");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -74,7 +74,7 @@ public class CatalogoDAO {
 
     public List<EstadoCompra> listarEstadosCompra() {
         List<EstadoCompra> lista = new ArrayList<>();
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement("SELECT * FROM estado_compra ORDER BY estado_compra_id");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -89,7 +89,7 @@ public class CatalogoDAO {
 
     public List<EstadoPedido> listarEstadosPedido() {
         List<EstadoPedido> lista = new ArrayList<>();
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement("SELECT * FROM estado_pedido ORDER BY estado_pedido_id");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -104,7 +104,7 @@ public class CatalogoDAO {
 
     public List<EstadoVenta> listarEstadosVenta() {
         List<EstadoVenta> lista = new ArrayList<>();
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement("SELECT * FROM estado_venta ORDER BY estado_venta_id");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -119,7 +119,7 @@ public class CatalogoDAO {
 
     public List<MetodoPago> listarMetodosPago() {
         List<MetodoPago> lista = new ArrayList<>();
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement("SELECT * FROM metodo_pago ORDER BY metodo_pago_id");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -134,7 +134,7 @@ public class CatalogoDAO {
 
     public List<Prioridad> listarPrioridades() {
         List<Prioridad> lista = new ArrayList<>();
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement("SELECT * FROM prioridad ORDER BY prioridad_id");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -149,7 +149,7 @@ public class CatalogoDAO {
 
     public List<UnidadMedida> listarUnidadesMedida() {
         List<UnidadMedida> lista = new ArrayList<>();
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement("SELECT * FROM unidad_medida ORDER BY unidad_medida_id");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {

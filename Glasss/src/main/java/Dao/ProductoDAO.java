@@ -18,7 +18,7 @@ public class ProductoDAO {
         List<Producto> lista = new ArrayList<>();
         String sql = "SELECT * FROM producto ORDER BY producto_id ASC";
 
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
@@ -41,7 +41,7 @@ public class ProductoDAO {
 
     public boolean insertar(Producto p) {
         String sql = "INSERT INTO producto (sku, nombre, descripcion, imagen, categoria_id, precio, tiempo_preparacion_min, creado_en) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, p.getSku());
             ps.setString(2, p.getNombre());
@@ -56,7 +56,7 @@ public class ProductoDAO {
 
     public boolean actualizar(Producto p) {
         String sql = "UPDATE producto SET sku=?, nombre=?, descripcion=?, imagen=?, categoria_id=?, precio=?, tiempo_preparacion_min=? WHERE producto_id=?";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, p.getSku());
             ps.setString(2, p.getNombre());
@@ -72,7 +72,7 @@ public class ProductoDAO {
 
     public boolean eliminar(int id) {
         String sql = "DELETE FROM producto WHERE producto_id=?";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;

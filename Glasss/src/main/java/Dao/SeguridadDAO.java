@@ -24,7 +24,7 @@ public class SeguridadDAO {
 
     public List<Rol> listarRoles() {
         List<Rol> lista = new ArrayList<>();
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement("SELECT * FROM rol ORDER BY rol_id");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -41,7 +41,7 @@ public class SeguridadDAO {
     public List<Permiso> listarPermisosPorRol(int rolId) {
         List<Permiso> lista = new ArrayList<>();
         String sql = "SELECT p.* FROM permiso p INNER JOIN rol_permiso rp ON p.permiso_id = rp.permiso_id WHERE rp.rol_id = ?";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, rolId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -59,7 +59,7 @@ public class SeguridadDAO {
 
     public boolean asignarPermisoARol(int rolId, int permisoId) {
         String sql = "INSERT INTO rol_permiso (rol_id, permiso_id) VALUES (?, ?)";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, rolId);
             ps.setInt(2, permisoId);
@@ -69,7 +69,7 @@ public class SeguridadDAO {
 
     public boolean registrarBloqueo(Bloqueo b) {
         String sql = "INSERT INTO bloqueo (empleado_id, cliente_id, fecha_bloqueo, intentos_acumulados, motivo) VALUES (?, ?, NOW(), ?, ?)";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, b.getEmpleadoId(), Types.INTEGER);
             ps.setObject(2, b.getClienteId(), Types.INTEGER);

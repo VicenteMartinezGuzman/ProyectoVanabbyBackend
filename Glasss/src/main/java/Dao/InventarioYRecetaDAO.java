@@ -27,7 +27,7 @@ public class InventarioYRecetaDAO {
 
     public List<Ingrediente> listarIngredientes() {
         List<Ingrediente> lista = new ArrayList<>();
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement("SELECT * FROM ingrediente ORDER BY ingrediente_id");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -44,7 +44,7 @@ public class InventarioYRecetaDAO {
 
     public boolean insertarIngrediente(Ingrediente i) {
         String sql = "INSERT INTO ingrediente (nombre, unidad_medida_id, costo_por_unidad) VALUES (?, ?, ?)";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, i.getNombre());
             ps.setInt(2, i.getUnidadMedidaId());
@@ -55,7 +55,7 @@ public class InventarioYRecetaDAO {
 
     public boolean registrarLote(LoteInventario l) {
         String sql = "INSERT INTO lote_inventario (ingrediente_id, numero_lote, cantidad, unidad_medida_id, fecha_caducidad, creado_en) VALUES (?, ?, ?, ?, ?, NOW())";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, l.getIngredienteId(), Types.INTEGER);
             ps.setString(2, l.getNumeroLote());
@@ -68,7 +68,7 @@ public class InventarioYRecetaDAO {
 
     public boolean actualizarStockProducto(InventarioProducto inv) {
         String sql = "UPDATE inventario_producto SET stock_disponible = ?, stock_minimo = ?, actualizado_en = NOW() WHERE producto_id = ?";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, inv.getStockDisponible());
             ps.setInt(2, inv.getStockMinimo());
@@ -84,7 +84,7 @@ public class InventarioYRecetaDAO {
 
         Connection con = null;
         try {
-            con = Conexion.getConnection();
+            con = Conexion.getConexion();
             con.setAutoCommit(false);
 
             int recetaId = 0;

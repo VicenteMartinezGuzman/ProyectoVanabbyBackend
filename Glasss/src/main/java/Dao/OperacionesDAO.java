@@ -32,7 +32,7 @@ public class OperacionesDAO {
 
         Connection con = null;
         try {
-            con = Conexion.getConnection();
+            con = Conexion.getConexion();
             con.setAutoCommit(false);
 
             int compraId = 0;
@@ -71,7 +71,7 @@ public class OperacionesDAO {
 
     public boolean insertarPedido(Pedido p) {
         String sql = "INSERT INTO pedido (cliente_id, empleado_id, estado_pedido_id, prioridad_id, fecha_pedido, fecha_entrega_programada) VALUES (?, ?, ?, ?, NOW(), ?)";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, p.getClienteId());
             ps.setInt(2, p.getEmpleadoId());
@@ -84,7 +84,7 @@ public class OperacionesDAO {
 
     public boolean insertarEnvio(Envio env) {
         String sql = "INSERT INTO envio (pedido_id, direccion_id, empleado_id, costo_envio, fecha_salida, notas) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, env.getPedidoId());
             ps.setInt(2, env.getDireccionId());
@@ -98,7 +98,7 @@ public class OperacionesDAO {
 
     public boolean registrarPagoVenta(PagoVenta pv) {
         String sql = "INSERT INTO pago_venta (venta_id, metodo_pago_id, monto, pagado_en, registrado_por) VALUES (?, ?, ?, NOW(), ?)";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, pv.getVentaId(), Types.INTEGER);
             ps.setObject(2, pv.getMetodoPagoId(), Types.INTEGER);
@@ -110,7 +110,7 @@ public class OperacionesDAO {
 
     public boolean registrarAnticipo(Anticipo a) {
         String sql = "INSERT INTO anticipo (venta_id, cliente_id, monto_anticipo, monto_restante, fecha_registro, fecha_limite, estado_anticipo_id, metodo_pago_id) VALUES (?, ?, ?, ?, NOW(), ?, ?, ?)";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, a.getVentaId(), Types.INTEGER);
             ps.setObject(2, a.getClienteId(), Types.INTEGER);
@@ -125,7 +125,7 @@ public class OperacionesDAO {
 
     public boolean agendarEvento(Agenda ag) {
         String sql = "INSERT INTO agenda (venta_id, fecha_programada, responsable_empleado_id, estado_agenda_id, notas) VALUES (?, ?, ?, ?, ?)";
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, ag.getVentaId(), Types.INTEGER);
             ps.setTimestamp(2, ag.getFechaProgramada());
@@ -138,7 +138,7 @@ public class OperacionesDAO {
 
     public List<Agenda> listarAgenda() {
         List<Agenda> lista = new ArrayList<>();
-        try (Connection con = Conexion.getConnection();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement("SELECT * FROM agenda ORDER BY fecha_programada ASC");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
