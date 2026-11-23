@@ -5,6 +5,8 @@
 package ConexionDB;
 
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,8 +19,28 @@ import java.sql.SQLException;
  */
 public class Conexion {
     // Configura los datos de tu base de datos local o remota
+    private static final String URL="jdbc:postgresql://localhost:5433/postgres";
     private static final String USER = "postgres";
     private static final String PASSWORD = "Holamundo01#";
+    private static final HikariDataSource dataSource;
+    
+    
+    static {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(URL);
+        config.setUsername(USER);
+        config.setPassword(PASSWORD);
+        config.setDriverClassName("org.postgresql.Driver");
+        config.setSchema("vanabby");
+
+        // Configuración del Pool de conexiones
+        config.setMaximumPoolSize(10);      // Máximo 10 conexiones activas al mismo tiempo
+        config.setMinimumIdle(2);           // Mínimo 2 conexiones listas en espera
+        config.setIdleTimeout(30000);       // Libera conexiones inactivas tras 30 segundos
+        config.setConnectionTimeout(10000); // Tiempo máximo de espera (10s) si el pool está lleno
+
+        dataSource = new HikariDataSource(config);
+    }
     
     //ESTE CODIGO FUE UNA PRUEBA PARA VER SI PODIA ACCEDER A LAS TABLAS
     public static void main(String[] args) {
@@ -48,22 +70,12 @@ public class Conexion {
     }
     
     public static Connection getConexion() throws SQLException {
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection cn = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5433/postgres", 
-                USER, 
-                PASSWORD
-            );
-            // setSchema() sí respeta las mayúsculas de vanabbyDB
-            cn.setSchema("vanabby"); 
-            return cn;
-        } catch (ClassNotFoundException e) {
-            throw new SQLException("No se encontró el driver de PostgreSQL en el proyecto", e);
-        }
+       return dataSource.getConnection();
     }
 
-    public static Connection getConnection() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+   public static void cerrarPool() {
+        if (dataSource != null && !dataSource.isClosed()) {
+            dataSource.close();
+        }
     }
 }
