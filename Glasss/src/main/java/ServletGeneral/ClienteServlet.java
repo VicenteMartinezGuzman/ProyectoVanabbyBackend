@@ -8,7 +8,6 @@ package ServletGeneral;
  *
  * @author vicen
  */
-
 import Dao.ClienteDAO;
 import Modelos.Cliente;
 import jakarta.servlet.annotation.WebServlet;
@@ -63,6 +62,29 @@ public class ClienteServlet extends BaseServlet {
         }
         if (dao.eliminar(id)) {
             enviarMensaje(res, HttpServletResponse.SC_OK, true, "Cliente eliminado.");
+        } else {
+            enviarMensaje(res, HttpServletResponse.SC_NOT_FOUND, false, "Cliente no encontrado.");
+        }
+    }
+    
+    // PATCH /api/clientes/5 -> Actualiza solo teléfono y/o correo
+
+    @Override
+    protected void doPatch(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        Integer id = obtenerIdDeRuta(req);
+        if (id == null) {
+            enviarMensaje(res, HttpServletResponse.SC_BAD_REQUEST, false, "Debes indicar el ID en la URL (ej. /api/clientes/5).");
+            return;
+        }
+
+        Cliente parcial = gson.fromJson(req.getReader(), Cliente.class);
+        if (parcial == null || (parcial.getTelefono() == null && parcial.getCorreo() == null)) {
+            enviarMensaje(res, HttpServletResponse.SC_BAD_REQUEST, false, "Envía al menos 'telefono' o 'correo' para actualizar.");
+            return;
+        }
+
+        if (dao.actualizarParcial(id, parcial.getTelefono(), parcial.getCorreo())) {
+            enviarMensaje(res, HttpServletResponse.SC_OK, true, "Datos de contacto actualizados.");
         } else {
             enviarMensaje(res, HttpServletResponse.SC_NOT_FOUND, false, "Cliente no encontrado.");
         }
