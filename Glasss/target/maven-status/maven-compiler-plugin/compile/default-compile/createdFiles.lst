@@ -46,6 +46,7 @@ Modelos\Ingrediente.class
 ServletGeneral\DireccionProveedorServlet.class
 Dao\SeguridadDAO.class
 Modelos\LoteInventario.class
+ConexionDB\CifradoAES.class
 ServletGeneral\EmpleadoServlet.class
 Dao\EmpleadoDAO.class
 Modelos\Empleado.class

@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Dao;
-
+import ConexionDB.CifradoAES;
 import ConexionDB.Conexion;
 import Modelos.Empleado;
 import java.sql.Connection;
@@ -31,10 +31,10 @@ public class EmpleadoDAO {
             while (rs.next()) {
                 Empleado e = new Empleado();
                 e.setEmpleadoId(rs.getInt("empleado_id"));
-                e.setNombreUsuario(rs.getString("nombre_usuario"));
-                e.setNombre(rs.getString("nombre"));
-                e.setApPaterno(rs.getString("ap_paterno"));
-                e.setApMaterno(rs.getString("ap_materno"));
+                e.setNombreUsuario(CifradoAES.descifrar(rs.getString("nombre_usuario")));
+                e.setNombre(CifradoAES.descifrar(rs.getString("nombre")));
+                e.setApPaterno(CifradoAES.descifrar(rs.getString("ap_paterno")));
+                e.setApMaterno(CifradoAES.descifrar(rs.getString("ap_materno")));
                 e.setRolId((Integer) rs.getObject("rol_id"));
                 e.setBloqueado((Short) rs.getObject("bloqueado"));
                 e.setIntentosFallidos((Integer) rs.getObject("intentos_fallidos"));
@@ -50,11 +50,11 @@ public class EmpleadoDAO {
         String sql = "INSERT INTO empleado (nombre_usuario, clave_hash, nombre, ap_paterno, ap_materno, rol_id, bloqueado, intentos_fallidos, creado_en) VALUES (?, ?, ?, ?, ?, ?, 0, 0, NOW())";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, emp.getNombreUsuario());
-            ps.setString(2, emp.getClaveHash());
-            ps.setString(3, emp.getNombre());
-            ps.setString(4, emp.getApPaterno());
-            ps.setString(5, emp.getApMaterno());
+            ps.setString(1, CifradoAES.cifrar(emp.getNombreUsuario()));
+            ps.setString(2, CifradoAES.cifrar(emp.getClaveHash()));
+            ps.setString(3, CifradoAES.cifrar(emp.getNombre()));
+            ps.setString(4, CifradoAES.cifrar(emp.getApPaterno()));
+            ps.setString(5, CifradoAES.cifrar(emp.getApMaterno()));
             ps.setObject(6, emp.getRolId(), Types.INTEGER);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) { e.printStackTrace(); return false; }
@@ -69,9 +69,9 @@ public class EmpleadoDAO {
                 if (rs.next()) {
                     Empleado e = new Empleado();
                     e.setEmpleadoId(rs.getInt("empleado_id"));
-                    e.setNombreUsuario(rs.getString("nombre_usuario"));
-                    e.setClaveHash(rs.getString("clave_hash"));
-                    e.setNombre(rs.getString("nombre"));
+                    e.setNombreUsuario(CifradoAES.descifrar(rs.getString("nombre_usuario")));
+                    e.setClaveHash(CifradoAES.descifrar(rs.getString("clave_hash")));
+                    e.setNombre(CifradoAES.descifrar(rs.getString("nombre")));
                     e.setRolId((Integer) rs.getObject("rol_id"));
                     e.setBloqueado((Short) rs.getObject("bloqueado"));
                     e.setIntentosFallidos((Integer) rs.getObject("intentos_fallidos"));
@@ -81,4 +81,7 @@ public class EmpleadoDAO {
         } catch (SQLException e) { e.printStackTrace(); }
         return null;
     }
+
+        
 }
+
