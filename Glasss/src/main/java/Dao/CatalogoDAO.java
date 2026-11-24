@@ -4,6 +4,7 @@
  */
 package Dao;
 
+import ConexionDB.CifradoAES;
 import ConexionDB.Conexion;
 import Modelos.Categoria;
 import Modelos.EstadoAgenda;
@@ -125,7 +126,7 @@ public class CatalogoDAO {
             while (rs.next()) {
                 MetodoPago mp = new MetodoPago();
                 mp.setMetodoPagoId(rs.getInt("metodo_pago_id"));
-                mp.setNombreMetodo(rs.getString("nombre_metodo"));
+                mp.setNombreMetodo(CifradoAES.descifrar(rs.getString("nombre_metodo")));
                 lista.add(mp);
             }
         } catch (SQLException e) { e.printStackTrace(); }

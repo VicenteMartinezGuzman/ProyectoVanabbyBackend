@@ -4,6 +4,7 @@
  */
 package Dao;
 
+import ConexionDB.CifradoAES;
 import ConexionDB.Conexion;
 import Modelos.DireccionCliente;
 import Modelos.DireccionEmpleado;
@@ -31,12 +32,12 @@ public class DireccionYProveedorDAO {
             while (rs.next()) {
                 Proveedor p = new Proveedor();
                 p.setProveedorId(rs.getInt("proveedor_id"));
-                p.setNombre(rs.getString("nombre"));
-                p.setContactoNombre(rs.getString("contacto_nombre"));
-                p.setContactoApPaterno(rs.getString("contacto_ap_paterno"));
-                p.setContactoApMaterno(rs.getString("contacto_ap_materno"));
-                p.setTelefono(rs.getString("telefono"));
-                p.setCorreo(rs.getString("correo"));
+                p.setNombre(CifradoAES.descifrar(rs.getString("nombre")));
+                p.setContactoNombre(CifradoAES.descifrar(rs.getString("contacto_nombre")));
+                p.setContactoApPaterno(CifradoAES.descifrar(rs.getString("contacto_ap_paterno")));
+                p.setContactoApMaterno(CifradoAES.descifrar(rs.getString("contacto_ap_materno")));
+                p.setTelefono(CifradoAES.descifrar(rs.getString("telefono")));
+                p.setCorreo(CifradoAES.descifrar(rs.getString("correo")));
                 p.setNotas(rs.getString("notas"));
                 lista.add(p);
             }
@@ -48,12 +49,12 @@ public class DireccionYProveedorDAO {
         String sql = "INSERT INTO proveedor (nombre, contacto_nombre, contacto_ap_paterno, contacto_ap_materno, telefono, correo, notas) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, p.getNombre());
-            ps.setString(2, p.getContactoNombre());
-            ps.setString(3, p.getContactoApPaterno());
-            ps.setString(4, p.getContactoApMaterno());
-            ps.setString(5, p.getTelefono());
-            ps.setString(6, p.getCorreo());
+            ps.setString(1, CifradoAES.cifrar(p.getNombre()));
+            ps.setString(2, CifradoAES.cifrar(p.getContactoNombre()));
+            ps.setString(3, CifradoAES.cifrar(p.getContactoApPaterno()));
+            ps.setString(4, CifradoAES.cifrar(p.getContactoApMaterno()));
+            ps.setString(5, CifradoAES.cifrar(p.getTelefono()));
+            ps.setString(6, CifradoAES.cifrar(p.getCorreo()));
             ps.setString(7, p.getNotas());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) { e.printStackTrace(); return false; }
@@ -69,13 +70,13 @@ public class DireccionYProveedorDAO {
                     DireccionCliente d = new DireccionCliente();
                     d.setDireccionId(rs.getInt("direccion_id"));
                     d.setClienteId(rs.getInt("cliente_id"));
-                    d.setAlias(rs.getString("alias"));
-                    d.setCalle(rs.getString("calle"));
-                    d.setNumero(rs.getString("numero"));
-                    d.setColonia(rs.getString("colonia"));
-                    d.setCiudad(rs.getString("ciudad"));
-                    d.setEstadoGeo(rs.getString("estado_geo"));
-                    d.setCp(rs.getString("cp"));
+                    d.setAlias(CifradoAES.descifrar(rs.getString("alias")));
+                    d.setCalle(CifradoAES.descifrar(rs.getString("calle")));
+                    d.setNumero(CifradoAES.descifrar(rs.getString("numero")));
+                    d.setColonia(CifradoAES.descifrar(rs.getString("colonia")));
+                    d.setCiudad(CifradoAES.descifrar(rs.getString("ciudad")));
+                    d.setEstadoGeo(CifradoAES.descifrar(rs.getString("estado_geo")));
+                    d.setCp(CifradoAES.descifrar(rs.getString("cp")));
                     d.setEsPrincipal((Short) rs.getObject("es_principal"));
                     lista.add(d);
                 }
@@ -89,13 +90,13 @@ public class DireccionYProveedorDAO {
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, d.getClienteId());
-            ps.setString(2, d.getAlias());
-            ps.setString(3, d.getCalle());
-            ps.setString(4, d.getNumero());
-            ps.setString(5, d.getColonia());
-            ps.setString(6, d.getCiudad());
-            ps.setString(7, d.getEstadoGeo());
-            ps.setString(8, d.getCp());
+            ps.setString(2, CifradoAES.cifrar(d.getAlias()));
+            ps.setString(3, CifradoAES.cifrar(d.getCalle()));
+            ps.setString(4, CifradoAES.cifrar(d.getNumero()));
+            ps.setString(5, CifradoAES.cifrar(d.getColonia()));
+            ps.setString(6, CifradoAES.cifrar(d.getCiudad()));
+            ps.setString(7, CifradoAES.cifrar(d.getEstadoGeo()));
+            ps.setString(8, CifradoAES.cifrar(d.getCp()));
             ps.setObject(9, d.getEsPrincipal(), Types.SMALLINT);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) { e.printStackTrace(); return false; }
@@ -106,13 +107,13 @@ public class DireccionYProveedorDAO {
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, d.getEmpleadoId());
-            ps.setString(2, d.getAlias());
-            ps.setString(3, d.getCalle());
-            ps.setString(4, d.getNumero());
-            ps.setString(5, d.getColonia());
-            ps.setString(6, d.getCiudad());
-            ps.setString(7, d.getEstadoGeo());
-            ps.setString(8, d.getCp());
+            ps.setString(2, CifradoAES.cifrar(d.getAlias()));
+            ps.setString(3, CifradoAES.cifrar(d.getCalle()));
+            ps.setString(4, CifradoAES.cifrar(d.getNumero()));
+            ps.setString(5, CifradoAES.cifrar(d.getColonia()));
+            ps.setString(6, CifradoAES.cifrar(d.getCiudad()));
+            ps.setString(7, CifradoAES.cifrar(d.getEstadoGeo()));
+            ps.setString(8, CifradoAES.cifrar(d.getCp()));
             ps.setObject(9, d.getEsPrincipal(), Types.SMALLINT);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) { e.printStackTrace(); return false; }
@@ -123,13 +124,13 @@ public class DireccionYProveedorDAO {
         try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, d.getProveedorId());
-            ps.setString(2, d.getAlias());
-            ps.setString(3, d.getCalle());
-            ps.setString(4, d.getNumero());
-            ps.setString(5, d.getColonia());
-            ps.setString(6, d.getCiudad());
-            ps.setString(7, d.getEstadoGeo());
-            ps.setString(8, d.getCp());
+            ps.setString(2, CifradoAES.cifrar(d.getAlias()));
+            ps.setString(3, CifradoAES.cifrar(d.getCalle()));
+            ps.setString(4, CifradoAES.cifrar(d.getNumero()));
+            ps.setString(5, CifradoAES.cifrar(d.getColonia()));
+            ps.setString(6, CifradoAES.cifrar(d.getCiudad()));
+            ps.setString(7, CifradoAES.cifrar(d.getEstadoGeo()));
+            ps.setString(8, CifradoAES.cifrar(d.getCp()));
             ps.setObject(9, d.getEsPrincipal(), Types.SMALLINT);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) { e.printStackTrace(); return false; }
