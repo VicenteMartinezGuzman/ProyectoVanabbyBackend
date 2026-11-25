@@ -35,7 +35,7 @@ public class CifradoAES {
         }
         
         
-        return "";
+        throw new IllegalStateException("Falta configurar VANABBY_AES_KEY (32 bytes) en el archivo .env o variables de entorno.");
     }
 
     private static SecretKey getSecretKey() {
