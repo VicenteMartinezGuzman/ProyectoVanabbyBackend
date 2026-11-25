@@ -6,7 +6,7 @@ package ConexionDB;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
-import java.util.Base64;
+import java.util.Base64;//Usar la BASE 128 (PORQUE?? me comentan mi profesora que es más segura)
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
