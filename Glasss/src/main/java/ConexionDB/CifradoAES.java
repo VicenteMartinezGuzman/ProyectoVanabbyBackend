@@ -3,33 +3,38 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package ConexionDB;
+
+import io.github.cdimascio.dotenv.Dotenv;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
-import java.util.Base64;//Usar la BASE 128 (PORQUE?? me comentan mi profesora que es más segura)
+import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-/**
- *
- * @author vicen
- */
+
 public class CifradoAES {
 
     private static final String ALGORITMO = "AES/GCM/NoPadding";
     private static final int GCM_IV_LENGTH = 12; // 12 bytes recomendados para GCM
     private static final int GCM_TAG_LENGTH = 128; // 128 bits de autenticación
 
-    // Lee la clave de la variable de entorno; si aún no la configuras en NetBeans, usa una clave de 32 bytes (256 bits) de respaldo
     private static final String CLAVE_SECRETA = obtenerClaveSecreta();
 
     private static String obtenerClaveSecreta() {
-        String envKey = System.getenv("VANABBY_AES_KEY");
-        if (envKey != null && envKey.length() == 32) {
+        // Carga el archivo .env si existe; si no, lee las variables del sistema operativo
+        Dotenv dotenv = Dotenv.configure()
+                .ignoreIfMissing()
+                .load();
+
+        String envKey = dotenv.get("VANABBY_AES_KEY");
+
+        if (envKey != null && envKey.getBytes(StandardCharsets.UTF_8).length == 32) {
             return envKey;
         }
-        // EXACTAMENTE 32 caracteres = 256 bits (cámbiala antes de pasar a producción)
+        
+        // Respaldo de 32 bytes (256 bits) si no se encuentra el .env
         return "Vanabby2026ClaveSecretaAES256Bit";
     }
 
@@ -38,7 +43,6 @@ public class CifradoAES {
         return new SecretKeySpec(keyBytes, "AES");
     }
 
-    // Cifra texto plano -> devuelve cadena Base64 lista para guardar en PostgreSQL
     public static String cifrar(String textoPlano) {
         if (textoPlano == null || textoPlano.isBlank()) {
             return textoPlano;
@@ -53,7 +57,6 @@ public class CifradoAES {
 
             byte[] textoCifrado = cipher.doFinal(textoPlano.getBytes(StandardCharsets.UTF_8));
 
-            // Empaquetamos [IV (12 bytes) + Texto Cifrado] en un solo arreglo y lo pasamos a Base64
             ByteBuffer byteBuffer = ByteBuffer.allocate(iv.length + textoCifrado.length);
             byteBuffer.put(iv);
             byteBuffer.put(textoCifrado);
@@ -64,7 +67,6 @@ public class CifradoAES {
         }
     }
 
-    // Descifra cadena Base64 de PostgreSQL -> devuelve texto plano original para el JSON
     public static String descifrar(String textoCifradoBase64) {
         if (textoCifradoBase64 == null || textoCifradoBase64.isBlank()) {
             return textoCifradoBase64;
@@ -85,7 +87,6 @@ public class CifradoAES {
             byte[] textoPlano = cipher.doFinal(textoCifrado);
             return new String(textoPlano, StandardCharsets.UTF_8);
         } catch (Exception e) {
-            // Si algún registro antiguo estaba guardado sin cifrar, lo devuelve tal cual sin romper el GET
             return textoCifradoBase64;
         }
     }
