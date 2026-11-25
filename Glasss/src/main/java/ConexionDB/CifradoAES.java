@@ -34,8 +34,8 @@ public class CifradoAES {
             return envKey;
         }
         
-        // Respaldo de 32 bytes (256 bits) si no se encuentra el .env
-        return "Vanabby2026ClaveSecretaAES256Bit";
+        
+        return "";
     }
 
     private static SecretKey getSecretKey() {
