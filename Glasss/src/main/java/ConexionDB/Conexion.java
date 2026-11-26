@@ -7,6 +7,7 @@ package ConexionDB;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import io.github.cdimascio.dotenv.Dotenv;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,24 +15,37 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- *  
+ *
  * @author vicen
  */
 public class Conexion {
-    // Configura los datos de tu base de datos local o remota
-    private static final String URL="jdbc:postgresql://localhost:5433/postgres";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "Holamundo01#";
+
+    private static final Dotenv dotenv = Dotenv.configure()
+            .ignoreIfMissing()
+            .load();
+
+    private static final String URL = obtenerVariable("DB_URL");
+    private static final String USER = obtenerVariable("DB_USER");
+    private static final String PASSWORD = obtenerVariable("DB_PASSWORD");
+    private static final String SCHEMA = obtenerVariable("DB_SCHEMA");
+
     private static final HikariDataSource dataSource;
-    
-    
+
+    private static String obtenerVariable(String nombre) {
+        String valor = dotenv.get(nombre);
+        if (valor == null || valor.isBlank()) {
+            throw new IllegalStateException("Falta configurar la variable " + nombre + " en el archivo .env o en las variables de entorno.");
+        }
+        return valor;
+    }
+
     static {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(URL);
         config.setUsername(USER);
         config.setPassword(PASSWORD);
         config.setDriverClassName("org.postgresql.Driver");
-        config.setSchema("vanabby");
+        config.setSchema(SCHEMA);
 
         // Configuración del Pool de conexiones
         config.setMaximumPoolSize(10);      // Máximo 10 conexiones activas al mismo tiempo
@@ -41,39 +55,39 @@ public class Conexion {
 
         dataSource = new HikariDataSource(config);
     }
-    
+
     //ESTE CODIGO FUE UNA PRUEBA PARA VER SI PODIA ACCEDER A LAS TABLAS
     public static void main(String[] args) {
-        // Reemplaza "usuarios" por el nombre real de tu tabla dentro del esquema
         String sql = "SELECT * FROM rol;";
 
-        // try-with-resources cierra automáticamente Connection, PreparedStatement y ResultSet
         try (Connection rama = getConexion();
              PreparedStatement ps = rama.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-            
+
             System.out.println("--- Resultados de la consulta ---");
-            
-            // rs.next() avanza fila por fila mientras haya registros
+
             while (rs.next()) {
-                // Obtén los datos por el nombre exacto de la columna en PostgreSQL (o por índice 1, 2, 3...)
-                int id = rs.getInt("rol_id"); 
+                int id = rs.getInt("rol_id");
                 String nombre = rs.getString("nombre_rol");
                 String descripcion = rs.getString("descripcion");
-                
-                System.out.println("ID: " + id + " | Nombre: " + nombre+" | Descripcion: "+ descripcion);
+
+                System.out.println("ID: " + id + " | Nombre: " + nombre + " | Descripcion: " + descripcion);
             }
-            
+
         } catch (SQLException e) {
             System.err.println("Error al ejecutar la consulta: " + e.getMessage());
         }
     }
-    
+
     public static Connection getConexion() throws SQLException {
-       return dataSource.getConnection();
+        return dataSource.getConnection();
     }
 
-   public static void cerrarPool() {
+    public static Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
+    }
+
+    public static void cerrarPool() {
         if (dataSource != null && !dataSource.isClosed()) {
             dataSource.close();
         }
