@@ -48,8 +48,8 @@ public class Conexion {
         config.setSchema(SCHEMA);
 
         // Configuración del Pool de conexiones
-        config.setMaximumPoolSize(10);      // Máximo 10 conexiones activas al mismo tiempo
-        config.setMinimumIdle(2);           // Mínimo 2 conexiones listas en espera
+        config.setMaximumPoolSize(5);      // Máximo 10 conexiones activas al mismo tiempo
+        config.setMinimumIdle(1);           // Mínimo 2 conexiones listas en espera
         config.setIdleTimeout(30000);       // Libera conexiones inactivas tras 30 segundos
         config.setConnectionTimeout(10000); // Tiempo máximo de espera (10s) si el pool está lleno
 
